@@ -1121,13 +1121,21 @@ mariadb:
       accessModes:
         - ReadWriteOnce
       size: 8Gi
+## cloudsql proxy
+cloudsqlInstance:
+  ##
+  enabled: true
+  ##The format is
+  # $PROJECT:$REGION:$INSTANCE
+  instanceConnectionName: :us-central1:mysql-portal-cms
+
 ## External Database Configuration
 ## All of these values are only used if `mariadb.enabled=false`
 ##
 externalDatabase:
   ## @param externalDatabase.host External Database server host
   ##
-  host: 10.26.144.3
+  host: 127.0.0.1
   ## @param externalDatabase.port External Database server port
   ##
   port: 3306

@@ -282,6 +282,23 @@ spec:
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
             {{- end }}
+        {{- if .Values.cloudsqlInstance.enabled }}
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:latest
+          command: ["/cloud_sql_proxy",
+                    "-{{ .Values.cloudsqlInstance.instanceConnectionName }}=tcp:3306",
+                    "-credential_file=/secrets/cloudsql/key.json"]
+          # [START cloudsql_security_context]
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
+          # [END cloudsql_security_context]
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+        # [END proxy_container]
+        {{- end }}
         {{- if .Values.metrics.enabled }}
         - name: metrics
           image: {{ include "wordpress.metrics.image" . }}
@@ -368,4 +385,9 @@ spec:
           {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
+        {{- end }}
+        {{- if .Values.cloudsqlInstance.enabled }}
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: google-credentials
         {{- end }}
