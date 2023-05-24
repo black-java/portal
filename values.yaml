@@ -733,7 +733,12 @@ persistence:
   ##   matchLabels:
   ##     app: my-app
   ##
-  selector: {}
+  selector: {"app.kubernetes.io/name: wordpress","volume-type: ssd"}
+  pv: 
+    ##
+    fileshareServerIp: 10.163.253.146
+    ##
+    fileshareServerPath: /Myfile
   ## @param persistence.annotations Persistent Volume Claim annotations
   ##
   annotations: {}
@@ -1127,7 +1132,7 @@ cloudsqlInstance:
   enabled: true
   ##The format is
   # $PROJECT:$REGION:$INSTANCE
-  instanceConnectionName: :us-central1:mysql-portal-cms
+  instanceConnectionName: neon-cinema-386802:us-central1:mysql-portal-cms
 
 ## External Database Configuration
 ## All of these values are only used if `mariadb.enabled=false`

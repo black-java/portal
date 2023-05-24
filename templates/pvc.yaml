@@ -33,4 +33,7 @@ spec:
   {{- if .Values.persistence.dataSource }}
   dataSource: {{- include "common.tplvalues.render" (dict "value" .Values.persistence.dataSource "context" $) | nindent 4 }}
   {{- end }}
+  selector:
+    matchLabels:
+      name: {{- include "common.labels.matchLabels" . | nindent 4 }}
 {{- end }}
