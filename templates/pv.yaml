@@ -9,7 +9,7 @@ metadata:
     volume-type: ssd 
 spec:
   capacity:
-    storage: 5Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   nfs:
